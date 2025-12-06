@@ -92,8 +92,8 @@ def PredictNewInstance(
 #         print(f"Predicted Label: {predicted_label}")
 
 
-model = load_model("/home/shush/Desktop/AdeptusVita/app/adeptus-vita/app/api/ANN.h5")
-with open("/home/shush/Desktop/AdeptusVita/app/adeptus-vita/app/api/label_encoder.pkl", "rb") as f:
+model = load_model("/home/shush/dev/projects/adeptus-vita/web-app/app/api/ANN.h5")
+with open("/home/shush/dev/projects/adeptus-vita/web-app/app/api/label_encoder.pkl", "rb") as f:
     label_encoder = pickle.load(f)
 
 def main():
