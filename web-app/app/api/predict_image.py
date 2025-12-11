@@ -1,18 +1,20 @@
 import numpy as np
 import tensorflow as tf
-from tensorflow.keras.applications import EfficientNetB0  # type: ignore # Pre-trained model
-from tensorflow.keras.models import Model  # type: ignore
-from tensorflow.keras.preprocessing.image import img_to_array  # type: ignore
-from tensorflow.keras.applications.efficientnet import preprocess_input  # type: ignore
+from tensorflow.keras.applications import (
+    EfficientNetB0,
+)  # Pre-trained model  # pyright: ignore[reportMissingImports]
+from tensorflow.keras.models import Model  # pyright: ignore[reportMissingImports]
+from tensorflow.keras.preprocessing.image import img_to_array  # pyright: ignore[reportMissingImports]
+from tensorflow.keras.applications.efficientnet import preprocess_input  # pyright: ignore[reportMissingImports]
+from tensorflow.keras.models import load_model  # pyright: ignore[reportMissingImports]
 from PIL import Image
 import os
-import pickle, joblib
+import pickle
 import sys
-from tensorflow.keras.models import load_model  # type: ignore
 import argparse
 
 
-os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "1"
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 
@@ -80,21 +82,10 @@ def PredictNewInstance(
     return predicted_label
 
 
-# def main() -> None:
-#     model = load_model("./ANN.h5")
-#     with open("./label_encoder.pkl", "rb") as f:
-#         label_encoder = pickle.load(f)
-#     while True:
-#         image_path = input()
-#         if image_path == "q":
-#             break
-#         predicted_label = PredictNewInstance(image_path, model, label_encoder)
-#         print(f"Predicted Label: {predicted_label}")
-
-
-model = load_model("/home/shush/dev/projects/adeptus-vita/web-app/app/api/ANN.h5")
-with open("/home/shush/dev/projects/adeptus-vita/web-app/app/api/label_encoder.pkl", "rb") as f:
+model = load_model(os.path.join(os.getcwd(), "app", "api", "ANN.h5"))
+with open(os.path.join(os.getcwd(), "app", "api", "label_encoder.pkl"), "rb") as f:
     label_encoder = pickle.load(f)
+
 
 def main():
     parser = argparse.ArgumentParser(description="Predict dementia from MRI image")
@@ -113,18 +104,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-# if __name__ == "__main__":
-#     if len(sys.argv) < 2:
-#         print("Usage: python predict_image.py path_to_image.jpg")
-#     else:
-#         image_path = sys.argv[1]
-
-#         model_path = "./ANN.h5"
-#         ANN_model = load_model(model_path)
-
-#         with open("./label_encoder.pkl", "rb") as f:
-#             label_encoder = pickle.load(f)
-
-#         predicted_label = PredictNewInstance(image_path, ANN_model, showImage=True)
-#         print(f"Predicted Label: {predicted_label}")
